@@ -8,26 +8,31 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ContactImplTest {
-ContactImpl test;
+    ContactImpl test1;
+    ContactImpl test2;
+
 
     @Before
     public void buildUp(){
-        test = new ContactImpl();
+        test1 = new ContactImpl(17, "John Doe", "Test Note");
+        test2 = new ContactImpl(17, "John Doe");
     }
 
     @Test
     public void testGetId() {
-        assertEquals(test.getId(), 0);
+        assertEquals(test1.getId(), 17);
+        assertEquals(test2.getId(), 17);
     }
 
     @Test
     public void testGetName() {
-        assertEquals(test.getName(), "name");
+        assertEquals(test1.getName(), "name");
     }
 
     @Test
     public void testGetNotes() {
-        assertEquals(test.getNotes(), "notes");
+
+        assertEquals(test1.getNotes(), "notes");
     }
 
 }
