@@ -6,7 +6,7 @@ public class ContactImpl implements Contact, Serializable {
     private String notes;
 
     /**
-     * Constructor for only id and name of contact,
+     * Constructor for only id and name of contact.
      *
      * @param id of contact
      * @param name of contact
@@ -17,13 +17,15 @@ public class ContactImpl implements Contact, Serializable {
     }
 
     /**
-     * Constructor for only id and name of contact,
+     * Constructor for id, name and notes for contact.
      *
      * @param id of contact
      * @param name of contact
+     * @param note for the contact
      */
     public ContactImpl(int id, String name, String note){
-        new ContactImpl(id,name);
+        this.id = id;
+        this.name = name;
         this.notes = note;
     }
 
@@ -49,7 +51,8 @@ public class ContactImpl implements Contact, Serializable {
 
     /**
      * This method will return the contacts full details
-     * @return
+     *
+     * @return The following contact details, ID, name and if applicable, notes.
      */
     @Override
     public String toString(){
