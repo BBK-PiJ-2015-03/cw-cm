@@ -8,8 +8,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ContactImplTest {
-    ContactImpl test1;
-    ContactImpl test2;
+    Contact test1;
+    Contact test2;
 
 
     @Before
@@ -20,19 +20,21 @@ public class ContactImplTest {
 
     @Test
     public void testGetId() {
-        assertEquals(test1.getId(), 17);
-        assertEquals(test2.getId(), 17);
+        assertEquals(17, test1.getId());
+        assertEquals(17, test2.getId());
     }
 
     @Test
     public void testGetName() {
-        assertEquals(test1.getName(), "name");
+        assertEquals("John Doe", test1.getName());
+        assertEquals("John Doe", test2.getName());
     }
 
     @Test
     public void testGetNotes() {
+        assertEquals("Test Note", test1.getNotes());
+        assertNull(test2.getNotes());
 
-        assertEquals(test1.getNotes(), "notes");
     }
 
 }
