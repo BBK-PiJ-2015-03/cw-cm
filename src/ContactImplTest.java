@@ -4,7 +4,6 @@
  */
 
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -18,17 +17,17 @@ ContactImpl test;
 
     @Test
     public void testGetId() {
-        assertEquals(test.getId(), 1);
+        assertEquals(test.getId(), 0);
     }
 
     @Test
     public void testGetName() {
-        assertEquals(test.getName(), "1");
+        assertEquals(test.getName(), "name");
     }
 
     @Test
     public void testGetNotes() {
-        assertEquals(test.getNotes(), "1");
+        assertEquals(test.getNotes(), "notes");
     }
 
 }
