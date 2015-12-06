@@ -4,10 +4,9 @@ import java.io.Serializable;
  */
 public class ContactImpl implements Contact, Serializable {
     //Assuming id & name are immutable fields.
-    private int id;
-    private String name;
+    private final int id;
+    private final String name;
     private String notes = "";
-    private static int CUSTOMER_COUNT = 1;
 
     /**
      * Constructor for a  contact.
@@ -16,9 +15,8 @@ public class ContactImpl implements Contact, Serializable {
      * @param name of contact
      */
     public ContactImpl(String name){
-        this.id = CUSTOMER_COUNT;
+        this.id = this.hashCode();
         this.name = name;
-        CUSTOMER_COUNT++;
     }
     /**
      * @see Contact#getId()
