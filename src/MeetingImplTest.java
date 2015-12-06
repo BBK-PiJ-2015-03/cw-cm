@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
  * Test for MeetingImpl class
  */
 public class MeetingImplTest {
-    private Meeting m;
+    private MeetingImpl m;
     private Set<Contact> cSet;
     private Contact test1;
     private Contact test2;
@@ -26,6 +26,16 @@ public class MeetingImplTest {
     @Before
     public void setUp(){
         cSet = new HashSet<>();
+        test1 = new ContactImpl("Jane Doe");
+        test2 = new ContactImpl("John Doe");
+        test3 = new ContactImpl("Mark Mane");
+        test4 = new ContactImpl("Charles Fitz");
+        test5 = new ContactImpl("Gemma Simmons");
+        test6 = new ContactImpl("Donna Grey");
+        test7 = new ContactImpl("Chad Walts");
+        test8 = new ContactImpl("King Henry");
+        test9 = new ContactImpl("Domminic Salvador");
+        test10 = new ContactImpl("Dean Gourski");
         cSet.add(test1);
         cSet.add(test2);
         cSet.add(test3);
@@ -35,8 +45,10 @@ public class MeetingImplTest {
         cSet.add(test7);
         cSet.add(test8);
         cSet.add(test9);
-        m = new MeetingImpl(cSet, m.hashCode(), Calendar.getInstance());
-
+        m = new MeetingImpl();
+        m.setContacts(cSet);
+        m.setDate(Calendar.getInstance());
+        m.setId(m.hashCode());
     }
 
     @Test
