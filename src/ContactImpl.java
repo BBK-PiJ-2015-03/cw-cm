@@ -1,62 +1,65 @@
 import java.io.Serializable;
-
+/**
+ * @see Contact
+ */
 public class ContactImpl implements Contact, Serializable {
+    //Assuming id & name are immutable fields.
     private int id;
     private String name;
-    private String notes;
+    private String notes = "";
+    private static int CUSTOMER_COUNT = 1;
 
     /**
-     * Constructor for only id and name of contact.
+     * Constructor for a  contact.
+     * Creates a unique id for each new contact.
      *
-     * @param id of contact
      * @param name of contact
      */
-    public ContactImpl(int id, String name){
-        this.id = id;
+    public ContactImpl(String name){
+        this.id = CUSTOMER_COUNT;
         this.name = name;
+        CUSTOMER_COUNT++;
     }
-
     /**
-     * Constructor for id, name and notes for contact.
-     *
-     * @param id of contact
-     * @param name of contact
-     * @param note for the contact
+     * @see Contact#getId()
      */
-    public ContactImpl(int id, String name, String note){
-        this.id = id;
-        this.name = name;
-        this.notes = note;
-    }
-
     @Override
     public int getId() {
         return this.id;
     }
-
+    /**
+     * @see Contact#getName()
+     */
     @Override
     public String getName() {
         return this.name;
     }
-
+    /**
+     * @see Contact#getNotes()
+     */
     @Override
     public String getNotes() {
         return this.notes;
     }
-
+    /**
+     * @see Contact#addNotes(String)
+     */
     @Override
     public void addNotes(String note) {
-        this.notes += "\n" + note;
+        if(!this.getNotes().equals("")) {
+            this.notes += "\n" + note;
+        } else {
+            this.notes = note;
+        }
     }
-
     /**
      * This method will return the contacts full details
      *
-     * @return The following contact details, ID, name and if applicable, notes.
+     * @return The following contact details, id, name and if applicable, notes.
      */
     @Override
     public String toString(){
-        if(this.getNotes() == null) {
+        if(this.getNotes().equals("")) {
             return "ID: " + this.getId() + "\nName: " + this.getName();
         }
         return "ID: " + this.getId() + "\nName: " + this.getName() + "\nNotes: " + this.getNotes();
