@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import static org.junit.Assert.*;
 
 public class ContactImplTest {
-    ArrayList<Contact> cArray;
-    Contact test1;
-    Contact test2;
-    Contact test3;
-    Contact test4;
-    Contact test5;
-    Contact test6;
-    Contact test7;
-    Contact test8;
-    Contact test9;
-    Contact test10;
+    private ArrayList<Contact> cArray;
+    private Contact test1;
+    private Contact test2;
+    private Contact test3;
+    private Contact test4;
+    private Contact test5;
+    private Contact test6;
+    private Contact test7;
+    private Contact test8;
+    private Contact test9;
+    private Contact test10;
 
 
     @Before
