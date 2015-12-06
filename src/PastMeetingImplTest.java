@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
  * Tests for PastMeeting.
  */
 public class PastMeetingImplTest {
-    private Meeting m;
+    private PastMeeting m;
     private Set<Contact> cSet;
     private Contact test1;
     private Contact test2;
@@ -34,21 +34,6 @@ public class PastMeetingImplTest {
 
     @Test
     public void testGetNotes(){
-        assertNull(((PastMeeting)m).getNotes());
-    }
-
-    @Test
-    public void testGetId() {
-        assertEquals(0,m.getId());
-    }
-
-    @Test
-    public void testGetDate() {
-       assertNull(m.getDate());
-    }
-
-    @Test
-    public void testGetContacts() throws Exception {
-        assertNull(m.getContacts());
+        assertEquals("", m.getNotes());
     }
 }
