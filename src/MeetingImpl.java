@@ -9,9 +9,10 @@ public class MeetingImpl implements Meeting {
     private Calendar date;
     private Set<Contact> contacts;
 
-    /**
-     * Added setters for testing purposes, if useful will keep them.
-     */
+
+    //Added setters for testing purposes, if useful will keep them.
+    //This has solved the testing issue I was having, not sure why will ask Sergio.
+
     public void setId(int meetingId) {
         this.Id = meetingId;
     }
