@@ -1,15 +1,38 @@
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Date;
 
 /**
  * @see ContactManager
  */
 public class ContactManagerImpl implements ContactManager{
-
+    private Set contactSet = new HashSet<>();
+    private Calendar currDate = Calendar.getInstance();
+    /**
+     * Add a new meeting to be held in the future.
+     *
+     * @param contacts a list of contacts that will participate in the meeting
+     * @param date the date on which the meeting will take place
+     * @return the ID for the meeting
+     * @throws IllegalArgumentException if the meeting is set for a time in the past,
+     * of if any contact is unknown / non-existent
+     */
     @Override
-    public int addFutureMeeting(Set<Contact> contacts, Calendar date) {
-        return 0;
+    public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException{
+        if(date.before(currDate)){
+            throw new IllegalArgumentException("Date entered cannot be in the past.");
+        }
+        contacts.forEach(c -> {
+            if(c.getName() == null) {
+                throw new IllegalArgumentException("Unknown Contact");
+            }
+        });
+
+        return 4;
+
     }
 
     @Override
