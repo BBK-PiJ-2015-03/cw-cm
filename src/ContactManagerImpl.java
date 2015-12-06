@@ -1,16 +1,12 @@
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.Date;
 
 /**
  * @see ContactManager
  */
 public class ContactManagerImpl implements ContactManager{
-    private Set contactSet = new HashSet<>();
-    private Calendar currDate = Calendar.getInstance();
+    private Calendar todayDate = Calendar.getInstance();
     /**
      * Add a new meeting to be held in the future.
      *
@@ -22,7 +18,7 @@ public class ContactManagerImpl implements ContactManager{
      */
     @Override
     public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException{
-        if(date.before(currDate)){
+        if(date.before(todayDate)){
             throw new IllegalArgumentException("Date entered cannot be in the past.");
         }
         contacts.forEach(c -> {
@@ -30,8 +26,11 @@ public class ContactManagerImpl implements ContactManager{
                 throw new IllegalArgumentException("Unknown Contact");
             }
         });
-
-        return 4;
+        MeetingImpl newFutureMeeting = new FutureMeetingImpl();
+        newFutureMeeting.setContacts(contacts);
+        newFutureMeeting.setDate(date);
+        newFutureMeeting.setId(newFutureMeeting.hashCode());
+        return newFutureMeeting.getId();
 
     }
 
