@@ -1,81 +1,91 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import static org.junit.Assert.*;
 
 /**
- * Created by J2FX on 04/12/2015.
+ * Tests for ContactManagerImpl
  */
 public class ContactManagerImplTest {
-ContactManager cm;
+    private ContactManager cm;
+    private Calendar date;
+    private Contact contact1;
 
     @Before
     public void buildUp(){
         cm = new ContactManagerImpl();
+        Calendar date = new GregorianCalendar(2014, 12, 22);
+        System.out.println(date);
+        contact1 = new ContactImpl("Jane Doe");
     }
 
     @Test
-    public void testAddFutureMeeting(){
+    public void testAddFutureMeeting() {
         assertEquals(0, 0);
     }
 
     @Test
-    public void testGetPastMeeting() throws Exception {
-        assertNull(cm);
+    public void testGetPastMeeting() {
+        assertNull(cm.getPastMeeting(2));
     }
 
     @Test
-    public void testGetFutureMeeting() throws Exception {
-        assertNull(cm);
+    public void testGetFutureMeeting() {
+        assertNull(cm.getFutureMeetingList(date));
     }
 
     @Test
-    public void testGetMeeting() throws Exception {
-        assertNull(cm);
+    public void testGetMeeting() {
+        assertNull(cm.getMeeting(222));
     }
 
     @Test
-    public void testGetFutureMeetingList() throws Exception {
-        assertNull(cm);
+    public void testGetFutureMeetingList() {
+        assertNull(cm.getFutureMeetingList(date));
     }
 
     @Test
-    public void testGetFutureMeetingList1() throws Exception {
-        assertNull(cm);
+    public void testGetFutureMeetingList1() {
+        assertNull(cm.getFutureMeetingList(contact1));
     }
 
     @Test
-    public void testGetPastMeetingList() throws Exception {
-        assertNull(cm);
+    public void testGetPastMeetingList() {
+        assertNull(cm.getPastMeetingList(contact1));
     }
 
     @Test
-    public void testAddNewPastMeeting() throws Exception {
-
-    }
-
-    @Test
-    public void testAddMeetingNotes() throws Exception {
+    public void testAddNewPastMeeting() {
 
     }
 
     @Test
-    public void testAddNewContact() throws Exception {
+    public void testAddMeetingNotes() {
 
     }
 
     @Test
-    public void testGetContactsArray() throws Exception {
-        assertNull(cm);
+    public void testAddNewContact() {
+
     }
 
     @Test
-    public void testGetContactsByName() throws Exception {
-        assertNull(cm);
+    public void testGetContactsArray() {
+        assertNull(cm.getContacts(21, 21, 32, 323));
     }
 
     @Test
-    public void testFlush() throws Exception {
+    public void testGetContactsByName() {
+        assertNull(cm.getContacts("Jane Doe"));
+    }
+
+    @Test
+    public void testFlush() {
 
     }
 }
