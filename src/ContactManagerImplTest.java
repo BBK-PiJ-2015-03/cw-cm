@@ -1,4 +1,5 @@
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.text.ParseException;
@@ -60,18 +61,31 @@ public class ContactManagerImplTest {
     }
 
     @Test
-    public void testGetPastMeeting() {
-        assertNull(cm.getPastMeeting(2));
+    public void testGetPastMeeting() {  //Unless I create a constructor and add the meeting manually I cannot test this.
+        assertNull(cm.getPastMeeting(2)); //Will come back to this later
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetPastMeetingWithFutureDate() {  //Unless I create a constructor and add the meeting manually I cannot test this.
+        int meetingId = cm.addFutureMeeting(cSet,futureDate);
+        assertNull(cm.getPastMeeting(meetingId)); //Will come back to this later
     }
 
     @Test
-    public void testGetFutureMeeting() {
-        assertNull(cm.getFutureMeetingList(pastDate));
+    public void testGetFutureMeetingListByDate() {
+        cm.addFutureMeeting(cSet,futureDate);
+        assertNull(cm.getFutureMeetingList(futureDate));
+    }
+
+    @Test
+    public void testGetFutureMeetingById(){
+        // assertEquals(futureDate, cm.getFutureMeeting(1213415012).getDate()); // Having problems with this method
     }
 
     @Test
     public void testGetMeeting() {
-        assertNull(cm.getMeeting(222));
+        int meetingId = cm.addFutureMeeting(cSet,futureDate);
+        assertNotNull(cm.getMeeting(meetingId));
     }
 
     @Test
