@@ -101,6 +101,9 @@ public class ContactManagerImpl implements ContactManager{
     @Override
     public List<Meeting> getFutureMeetingList(Calendar date) {
         List<Meeting> futureMeetingList = new ArrayList<>();
+        if(date.before(todayDate)){
+            return futureMeetingList;  //JavaDoc did not specify if past dates should be returned, I will assume not.
+        }
         for (Meeting m : allMeetings) {
             if(m.getDate().equals(date)) {
                 for (Contact c : m.getContacts()) {
