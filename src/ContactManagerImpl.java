@@ -64,16 +64,19 @@ public class ContactManagerImpl implements ContactManager{
      * Removes duplicate meeting from a given list
      *
      * ******** METHOD IS BUGGY - ONLY RETURNS 1 ITEM IN THE LIST.
+     * HAVE ADJUSTED THIS METHOD WITH SAME RESULT, TRIED USING HASHSET NO LUCK.
      *
      * @param meetingList any list type of meeting(s)
      * @return the list with any duplicates removed
      */
     public List<Meeting> removeDuplicates(List<Meeting> meetingList){
-        Set<Meeting> removeDupe = new HashSet<>();
-        removeDupe.addAll(meetingList);
-        meetingList.clear();
-        meetingList.addAll(removeDupe);
-        return meetingList;
+        List<Meeting> removeDupe = new ArrayList<>();
+        for (Meeting meeting : meetingList) {
+            if (!removeDupe.contains(meeting)) {
+                removeDupe.add(meeting);
+            }
+        }
+        return removeDupe;
     }
     /**
      * @see ContactManager#getFutureMeetingList(Contact)
