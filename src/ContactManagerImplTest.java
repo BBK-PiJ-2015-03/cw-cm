@@ -5,6 +5,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -16,6 +18,8 @@ public class ContactManagerImplTest {
     private Calendar futureDate;
     private Calendar pastDate;
     private Contact contact1;
+    private Contact contact2;
+    private Set<Contact> cSet;
 
     @Before
     public void buildUp(){
@@ -23,6 +27,12 @@ public class ContactManagerImplTest {
         pastDate = new GregorianCalendar(1992,3,19); //For some reason any month entered is incremented by 1.
         futureDate = new GregorianCalendar(2019,11,6); //Maybe this is treated like an array where January is '0' etc...
         contact1 = new ContactImpl("Jane Doe");        //*** This has somehow fixed itself - not sure how or why.
+        contact2 = new ContactImpl("Mark Pole");
+        cSet = new HashSet<>();
+        cSet.add(contact1);
+        cSet.add(contact2);
+
+
     }
 
     @Test
@@ -37,6 +47,11 @@ public class ContactManagerImplTest {
         assertEquals(1992, pastDate.get(Calendar.YEAR));
         assertEquals(3, pastDate.get(Calendar.MONTH));
         assertEquals(19, pastDate.get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddFutureMeetingWithPastDate() {
+        cm.addFutureMeeting(cSet, pastDate);
     }
 
     @Test
