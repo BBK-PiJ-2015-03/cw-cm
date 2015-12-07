@@ -63,6 +63,8 @@ public class ContactManagerImpl implements ContactManager{
     /**
      * Removes duplicate meeting from a given list
      *
+     * ******** METHOD IS BUGGY - ONLY RETURNS 1 ITEM IN THE LIST.
+     *
      * @param meetingList any list type of meeting(s)
      * @return the list with any duplicates removed
      */
@@ -89,7 +91,7 @@ public class ContactManagerImpl implements ContactManager{
             }
             if(!futureMeetingList.isEmpty()) {
                 Collections.sort(futureMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
-                return removeDuplicates(futureMeetingList);
+                //return removeDuplicates(futureMeetingList);
             }
         }
         return futureMeetingList;
@@ -106,14 +108,12 @@ public class ContactManagerImpl implements ContactManager{
         }
         for (Meeting m : allMeetings) {
             if(m.getDate().equals(date)) {
-                for (Contact c : m.getContacts()) {
-                    futureMeetingList.add(m);
-                }
-            }
+                futureMeetingList.add(m);
+           }
         }
         if(!futureMeetingList.isEmpty()) {
             Collections.sort(futureMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
-            return removeDuplicates(futureMeetingList);
+           // return removeDuplicates(futureMeetingList);
         }
         return futureMeetingList;
     }
