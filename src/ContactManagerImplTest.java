@@ -19,6 +19,7 @@ public class ContactManagerImplTest {
     private Contact contact1;
     private Contact contact2;
     private Set<Contact> cSet;
+    private Set<Contact> cSet2;
 
     @Before
     public void buildUp(){
@@ -31,7 +32,8 @@ public class ContactManagerImplTest {
         cSet = new HashSet<>();
         cSet.add(contact1);
         cSet.add(contact2);
-
+        cSet2 = new HashSet<>();
+        cSet2.add(contact1);
 
     }
 
@@ -95,8 +97,15 @@ public class ContactManagerImplTest {
 
     @Test
     public void testGetFutureMeetingListByContact() {
-        cm.addFutureMeeting(cSet, futureDate);
         cm.addFutureMeeting(cSet, futureDate2);
+        cm.addFutureMeeting(cSet2, futureDate);
+        cm.addFutureMeeting(cSet, futureDate2);
+        cm.addFutureMeeting(cSet2, futureDate2);
+        cm.addFutureMeeting(cSet, futureDate);
+        List<Meeting> tempList = cm.getFutureMeetingList(contact1);
+        for(Meeting m : tempList){
+            System.out.println(m);
+        }
         assertNotNull(cm.getFutureMeetingList(contact1));
     }
 
