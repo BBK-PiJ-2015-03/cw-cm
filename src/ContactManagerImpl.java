@@ -35,7 +35,6 @@ public class ContactManagerImpl implements ContactManager{
     @Override
     public PastMeeting getPastMeeting(int id) throws IllegalArgumentException{
         for (Meeting m : allMeetings) {  //Double check this loop
-            System.out.println(m.getId());
             if(m.getId() == id){
                 if(m.getDate().after(todayDate)){
                     throw new IllegalArgumentException("The date of this meeting is in the future.");
@@ -55,7 +54,6 @@ public class ContactManagerImpl implements ContactManager{
     @Override
     public FutureMeeting getFutureMeeting(int id) throws IllegalArgumentException{
         for (Meeting m : allMeetings) {  //Double check this loop
-            System.out.println(m.getId());
             if(m.getId() == id){
                 if(m.getDate().before(todayDate)){
                     throw new IllegalArgumentException("The date of this meeting is in the past.");
