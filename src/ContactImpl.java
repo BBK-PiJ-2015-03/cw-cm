@@ -60,8 +60,8 @@ public class ContactImpl implements Contact, Serializable {
     @Override
     public String toString(){
         if(this.getNotes().equals("")) {
-            return "ID: " + this.getId() + "\nName: " + this.getName();
+            return "\nID: " + this.getId() + "\nName: " + this.getName();
         }
-        return "ID: " + this.getId() + "\nName: " + this.getName() + "\nNotes: " + this.getNotes();
+        return "\nID: " + this.getId() + "\nName: " + this.getName() + "\nNotes: " + this.getNotes();
     }
 }
