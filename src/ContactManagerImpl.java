@@ -1,7 +1,4 @@
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @see ContactManager
@@ -34,49 +31,88 @@ public class ContactManagerImpl implements ContactManager{
      */
     @Override
     public PastMeeting getPastMeeting(int id) throws IllegalArgumentException{
-        for (Meeting m : allMeetings) {  //Double check this loop
-            if(m.getId() == id){
-                if(m.getDate().after(todayDate)){
-                    throw new IllegalArgumentException("The date of this meeting is in the future.");
-                }
-                return ((PastMeetingImpl)m);
-            }
+        if(this.getMeeting(id) != null || !this.getMeeting(id).getDate().before(todayDate)){
+            throw new IllegalArgumentException("The date of this meeting is in the future.");
         }
-        return null;
+        return (PastMeeting)this.getMeeting(id);
     }
     /**
-     * Returns the FUTURE meeting with the requested ID, or null if there is none.
-     *
-     * @param id the ID for the meeting
-     * @return the meeting with the requested ID, or null if it there is none.
-     * @throws IllegalArgumentException if there is a meeting with that ID happening in the past
+     * @see ContactManager#getFutureMeeting(int)
      */
     @Override
     public FutureMeeting getFutureMeeting(int id) throws IllegalArgumentException{
-        for (Meeting m : allMeetings) {  //Double check this loop
-            if(m.getId() == id){
-                if(m.getDate().before(todayDate)){
-                    throw new IllegalArgumentException("The date of this meeting is in the past.");
-                }
-                return ((FutureMeetingImpl)m);
+        if(this.getMeeting(id) != null || !this.getMeeting(id).getDate().after(todayDate)){
+            throw new IllegalArgumentException("The date of this meeting is in the past.");
+        }
+        return (FutureMeeting)this.getMeeting(id);
+    }
+
+    /**
+     * @see ContactManager#getMeeting(int)
+     */
+    @Override
+    public Meeting getMeeting(int id) {
+        for (Meeting m : allMeetings) {
+            if (m.getId() == id) {
+                return m;
             }
         }
         return null;
     }
 
+    /**
+     * Removes duplicate meeting from a given list
+     *
+     * @param meetingList any list type of meeting(s)
+     * @return the list with any duplicates removed
+     */
+    public List<Meeting> removeDuplicates(List<Meeting> meetingList){
+        Set<Meeting> removeDupe = new HashSet<>();
+        removeDupe.addAll(meetingList);
+        meetingList.clear();
+        meetingList.addAll(removeDupe);
+        return meetingList;
+    }
+    /**
+     * @see ContactManager#getFutureMeetingList(Contact)
+     */
     @Override
-    public Meeting getMeeting(int id) {
-        return null;
+    public List<Meeting> getFutureMeetingList(Contact contact) throws IllegalArgumentException{
+        List<Meeting> futureMeetingList = new ArrayList<>();
+        for (Meeting m : allMeetings) {
+            if(m.getDate().after(todayDate)) {
+                for (Contact c : m.getContacts()) {
+                    if (c.equals(contact)) {
+                        futureMeetingList.add(m);
+                    }
+                }
+            }
+            if(!futureMeetingList.isEmpty()) {
+                Collections.sort(futureMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
+                return removeDuplicates(futureMeetingList);
+            }
+        }
+        return futureMeetingList;
     }
 
-    @Override
-    public List<Meeting> getFutureMeetingList(Contact contact) {
-        return null;
-    }
-
+    /**
+     * @see ContactManager#getFutureMeetingList(Calendar)
+     */
     @Override
     public List<Meeting> getFutureMeetingList(Calendar date) {
-        return null;
+        List<Meeting> futureMeetingList = new ArrayList<>();
+        for (Meeting m : allMeetings) {
+            if(m.getDate().equals(date)) {
+                for (Contact c : m.getContacts()) {
+                    futureMeetingList.add(m);
+                }
+            }
+        }
+        if(!futureMeetingList.isEmpty()) {
+            Collections.sort(futureMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
+            return removeDuplicates(futureMeetingList);
+        }
+        return futureMeetingList;
     }
 
     @Override
