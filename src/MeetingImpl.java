@@ -56,6 +56,7 @@ public class MeetingImpl implements Meeting {
 
     @Override
     public String toString(){
-        return "Meeting ID: " + this.getId();
+        String printDate = date.get(Calendar.DAY_OF_MONTH) + "/" + date.get(Calendar.MONTH) + "/" + date.get(Calendar.YEAR);
+        return "\nMeeting ID: " + this.getId() + "\nDate:  " + printDate +  "\n== Contact List ==" + this.contacts;
     }
 }
