@@ -52,8 +52,8 @@ public class MeetingImplTest {
     }
 
     @Test
-    public void testGetId() {
-        assertEquals(m.hashCode(), m.getId());
+    public void testGetIdNotNull() {
+        assertEquals(1, m.getId());
     }
 
     @Test
