@@ -20,6 +20,6 @@ public class FutureMeetingImplTest {
 
     @Test
     public void testGetNotes(){
-        assertNull(m.getContacts());
+        assertNull("", m.getContacts());
     }
 }
