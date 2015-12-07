@@ -7,6 +7,7 @@ public class ContactImpl implements Contact, Serializable {
     private final int id;
     private final String name;
     private String notes = "";
+    private static int CONTACT_COUNT = 0;
 
     /**
      * Constructor for a  contact.
@@ -15,8 +16,9 @@ public class ContactImpl implements Contact, Serializable {
      * @param name of contact
      */
     public ContactImpl(String name){
-        this.id = this.hashCode();
+        this.id = CONTACT_COUNT+1;
         this.name = name;
+        CONTACT_COUNT++;
     }
     /**
      * @see Contact#getId()
