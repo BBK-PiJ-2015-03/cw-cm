@@ -144,12 +144,12 @@ public class ContactManagerImpl implements ContactManager{
      * @see ContactManager#addNewPastMeeting(Set, Calendar, String)
      */
     @Override
-    public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws NullPointerException, IllegalArgumentException{
+    public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws NullPointerException, IllegalStateException, IllegalArgumentException{
         if(contacts == null || date == null || text == null){
             throw new NullPointerException("Input cannot be null.");
         }
         if(!date.before(todayDate)){
-            throw new IllegalArgumentException("Date entered must be in the past.");
+            throw new IllegalStateException("Date entered must be in the past.");
         }
         contacts.forEach(c -> {
             if(c == null) {
@@ -184,6 +184,9 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addNewContact(String name, String notes) {
+        if(name.equals("") || notes.equals("") || name == null || notes == null){
+            throw new NullPointerException("Parameters cannot be empty or null.");
+        }
         return 0;
     }
 
