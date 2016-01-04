@@ -14,6 +14,17 @@ public class ContactImpl implements Contact, Serializable {
     private static Set<Contact> allContacts = new HashSet<>();
 
     /**
+     * Empty constructor needed for some testing / methods.
+     * does not increment contact count or add contact to list.
+     *
+     * @param name of contact
+     */
+    public ContactImpl(){
+        super();
+        this.name = "Test";
+        this.id = 007;
+    }
+    /**
      * Constructor for a  contact.
      * Creates a unique id for each new contact.
      *
