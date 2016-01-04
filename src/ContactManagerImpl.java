@@ -190,7 +190,9 @@ public class ContactManagerImpl implements ContactManager{
         if(name.equals("") || notes.equals("")){
             throw new IllegalArgumentException("Parameters cannot be empty strings.");
         }
-        return 0;
+        Contact newContact = new ContactImpl(name);
+        newContact.addNotes(notes);
+        return newContact.getId();
     }
 
     @Override
