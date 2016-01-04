@@ -136,6 +136,11 @@ public class ContactManagerImplTest {
         cm.addNewContact("","");
     }
 
+    @Test
+    public void testAddNewContactReturnsAnIdGreaterThan0() {
+        assertTrue(cm.addNewContact("Jeremy Kyle", "Prefers latte with no milk.") > 0);
+    }
+
 
     @Test
     public void testGetContactsArray() {
