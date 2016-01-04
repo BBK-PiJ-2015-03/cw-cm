@@ -163,6 +163,11 @@ public class ContactManagerImplTest {
         assertEquals(cm.getContacts("JIMMY").size(), 1);
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetContactsByNonExistingID() {
+        cm.getContacts(232, 322);
+    }
+
 
     @Test
     public void testGetContactsArray() {
