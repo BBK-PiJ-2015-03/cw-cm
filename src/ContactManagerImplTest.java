@@ -168,10 +168,18 @@ public class ContactManagerImplTest {
         cm.getContacts(232, 322);
     }
 
+    @Test
+    public void testGetContactsOneContactByExistingID() {
+        assertEquals(cm.getContacts(19).size(), 1);
+        Contact jone = new ContactImpl("Jonesy Jone");
+        int testId = jone.getId();
+        assertEquals(cm.getContacts(testId, 19).size(), 2);
+    }
+
 
     @Test
     public void testGetContactsArray() {
-        assertNull(cm.getContacts(21, 21, 32, 323));
+       // assertNull(cm.getContacts(21, 21, 32, 323));
     }
 
     @Test
