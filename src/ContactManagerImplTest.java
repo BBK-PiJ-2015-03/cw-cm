@@ -153,6 +153,18 @@ public class ContactManagerImplTest {
     }
 
     @Test
+    public void testGetContactsByString() {
+        Contact Jimmy = new ContactImpl("Jimmy Russler");
+        assertEquals(cm.getContacts("jimmy").size(), 1);
+        assertEquals(cm.getContacts("Jimmy").size(), 1);
+        assertEquals(cm.getContacts("russle").size(), 1);
+        assertEquals(cm.getContacts("Russle").size(), 1);
+        assertEquals(cm.getContacts("RUSSLE").size(), 1);
+        assertEquals(cm.getContacts("JIMMY").size(), 1);
+    }
+
+
+    @Test
     public void testGetContactsArray() {
         assertNull(cm.getContacts(21, 21, 32, 323));
     }
