@@ -183,7 +183,7 @@ public class ContactManagerImpl implements ContactManager{
     }
 
     @Override
-    public int addNewContact(String name, String notes) {
+    public int addNewContact(String name, String notes) throws NullPointerException, IllegalArgumentException{
         if(name == null || notes == null){
             throw new NullPointerException("Parameters cannot be null.");
         }
@@ -201,7 +201,10 @@ public class ContactManagerImpl implements ContactManager{
     }
 
     @Override
-    public Set<Contact> getContacts(String name) {
+    public Set<Contact> getContacts(String name) throws NullPointerException {
+        if(name == null){
+            throw new NullPointerException("Parameter cannot be null.");
+        }
         return null;
     }
 
