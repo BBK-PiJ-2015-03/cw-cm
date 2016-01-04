@@ -10,13 +10,16 @@ public class ContactManagerImpl implements ContactManager{
      * @see ContactManager#addFutureMeeting(Set, Calendar)
      */
     @Override
-    public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws IllegalArgumentException{
+    public int addFutureMeeting(Set<Contact> contacts, Calendar date) throws NullPointerException, IllegalArgumentException{
+        if(contacts == null || date == null){
+            throw new NullPointerException("Input cannot be null.");
+        }
         if(date.before(todayDate)){
             throw new IllegalArgumentException("Date entered cannot be in the past.");
         }
         contacts.forEach(c -> {
-            if(c.getName() == null) {
-                throw new IllegalArgumentException("Unknown Contact");
+            if(c == null) {
+                throw new IllegalArgumentException("Unknown Contact.");
             }
         });
         Meeting meeting = new FutureMeetingImpl();
@@ -31,7 +34,7 @@ public class ContactManagerImpl implements ContactManager{
      */
     @Override
     public PastMeeting getPastMeeting(int id) throws IllegalArgumentException{
-        if(this.getMeeting(id) != null || !this.getMeeting(id).getDate().before(todayDate)){
+        if(this.getMeeting(id) != null && !this.getMeeting(id).getDate().before(todayDate)){
             throw new IllegalArgumentException("The date of this meeting is in the future.");
         }
         return (PastMeeting)this.getMeeting(id);
@@ -41,7 +44,7 @@ public class ContactManagerImpl implements ContactManager{
      */
     @Override
     public FutureMeeting getFutureMeeting(int id) throws IllegalArgumentException{
-        if(this.getMeeting(id) != null || !this.getMeeting(id).getDate().after(todayDate)){
+        if(this.getMeeting(id) != null && !this.getMeeting(id).getDate().after(todayDate)){
             throw new IllegalArgumentException("The date of this meeting is in the past.");
         }
         return (FutureMeeting)this.getMeeting(id);
@@ -61,31 +64,16 @@ public class ContactManagerImpl implements ContactManager{
     }
 
     /**
-     * Removes duplicate meeting from a given list
-     *
-     * ******** METHOD IS BUGGY - ONLY RETURNS 1 ITEM IN THE LIST.
-     * HAVE ADJUSTED THIS METHOD WITH SAME RESULT, TRIED USING HASHSET NO LUCK.
-     *
-     * @param meetingList any list type of meeting(s)
-     * @return the list with any duplicates removed
-     */
-    public List<Meeting> removeDuplicates(List<Meeting> meetingList){
-        List<Meeting> removeDupe = new ArrayList<>();
-        for (Meeting meeting : meetingList) {
-            if (!removeDupe.contains(meeting)) {
-                removeDupe.add(meeting);
-            }
-        }
-        return removeDupe;
-    }
-    /**
      * @see ContactManager#getFutureMeetingList(Contact)
      */
     @Override
-    public List<Meeting> getFutureMeetingList(Contact contact) throws IllegalArgumentException{
+    public List<Meeting> getFutureMeetingList(Contact contact) throws NullPointerException{
+        if(contact == null){
+            throw new NullPointerException("Contact entered is null.");
+        }
         List<Meeting> futureMeetingList = new ArrayList<>();
         for (Meeting m : allMeetings) {
-            if(m.getDate().after(todayDate)) {
+            if(m.getDate().after(todayDate)) {  //Assuming todays meetings are not in the future.
                 for (Contact c : m.getContacts()) {
                     if (c.equals(contact)) {
                         futureMeetingList.add(m);
@@ -94,21 +82,20 @@ public class ContactManagerImpl implements ContactManager{
             }
             if(!futureMeetingList.isEmpty()) {
                 Collections.sort(futureMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
-                //return removeDuplicates(futureMeetingList);
             }
         }
         return futureMeetingList;
     }
 
     /**
-     * @see ContactManager#getFutureMeetingList(Calendar)
+     * @see ContactManager#getMeetingListOn(Calendar)
      */
     @Override
-    public List<Meeting> getFutureMeetingList(Calendar date) {
-        List<Meeting> futureMeetingList = new ArrayList<>();
-        if(date.before(todayDate)){
-            return futureMeetingList;  //JavaDoc did not specify if past dates should be returned, I will assume not.
+    public List<Meeting> getMeetingListOn(Calendar date) throws NullPointerException {
+        if(date == null){
+            throw new NullPointerException("Date entered is null.");
         }
+        List<Meeting> futureMeetingList = new ArrayList<>();
         for (Meeting m : allMeetings) {
             if(m.getDate().equals(date)) {
                 futureMeetingList.add(m);
@@ -116,29 +103,71 @@ public class ContactManagerImpl implements ContactManager{
         }
         if(!futureMeetingList.isEmpty()) {
             Collections.sort(futureMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
-           // return removeDuplicates(futureMeetingList);
         }
         return futureMeetingList;
     }
 
     @Override
-    public List<PastMeeting> getPastMeetingList(Contact contact) {
-        return null;
+    public List<PastMeeting> getPastMeetingListFor(Contact contact) throws NullPointerException{
+        if(contact == null){
+            throw new NullPointerException("Contact entered is null.");
+        }
+        List<PastMeeting> pastMeetingList = new ArrayList<>();
+        for (Meeting m : allMeetings) {
+            if(m.getDate().before(todayDate)) {  //Assuming past meeting are prior to todays date.
+                for (Contact c : m.getContacts()) {
+                    if (c.equals(contact)) {
+                        pastMeetingList.add(((PastMeeting)m));
+                    }
+                }
+            }
+            if(!pastMeetingList.isEmpty()) {
+                Collections.sort(pastMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
+            }
+        }
+        return pastMeetingList;
     }
 
     @Override
     public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
-
+        if(contacts == null || date == null || text == null){
+            throw new NullPointerException("Input cannot be null.");
+        }
+        if(!date.before(todayDate)){
+            throw new IllegalArgumentException("Date entered must be in the past.");
+        }
+        contacts.forEach(c -> {
+            if(c == null) {
+                throw new IllegalArgumentException("Unknown Contact.");
+            }
+        });
+        Meeting meeting = new PastMeetingImpl();
+        ((PastMeetingImpl)meeting).setContacts(contacts);
+        ((PastMeetingImpl)meeting).setDate(date);
+        ((PastMeetingImpl)meeting).setId(meeting.hashCode());
+        ((PastMeetingImpl)meeting).setNotes(text);
+        allMeetings.add(meeting);
     }
 
     @Override
-    public void addMeetingNotes(int id, String text) {
-
+    public PastMeeting addMeetingNotes(int id, String text) throws IllegalArgumentException, IllegalStateException, NullPointerException{
+        if(getMeeting(id) == null){
+            throw new IllegalArgumentException("Meeting does not exist.");
+        }
+        if(getMeeting(id).getDate().after(todayDate)){
+            throw new IllegalStateException("Meeting cannot be in the future.");
+        }
+        if(text == null){
+            throw new NullPointerException("Notes cannot be null.");
+        }
+        Meeting meeting = getMeeting(id);
+        ((PastMeetingImpl)meeting).setNotes(text);
+        return ((PastMeetingImpl)meeting);
     }
 
     @Override
-    public void addNewContact(String name, String notes) {
-
+    public int addNewContact(String name, String notes) {
+        return 0;
     }
 
     @Override
