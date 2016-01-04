@@ -56,6 +56,12 @@ public class ContactManagerImplTest {
         cm.addFutureMeeting(cSet, pastDate);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testAddFutureMeetingWithNullDate() {
+        Calendar nullDate = null;
+        cm.addFutureMeeting(cSet, nullDate);
+    }
+
     @Test
     public void testAddFutureMeeting() {
         assertNotNull(cm.addFutureMeeting(cSet,futureDate));
@@ -75,7 +81,8 @@ public class ContactManagerImplTest {
     @Test
     public void testGetFutureMeetingListByFutureDate() {
         cm.addFutureMeeting(cSet,futureDate);
-        assertTrue(cm.getFutureMeetingList(futureDate).size() == 1);
+        cm.addFutureMeeting(cSet,futureDate);
+        assertTrue(cm.getFutureMeetingList(contact1).size() == 2);
     }
 
     @Test
@@ -90,12 +97,6 @@ public class ContactManagerImplTest {
     }
 
     @Test
-    public void testGetFutureMeetingListByPastDate() {
-        List<Meeting> tempList = new ArrayList<>();
-        assertEquals(tempList, cm.getFutureMeetingList(pastDate));
-    }
-
-    @Test
     public void testGetFutureMeetingListByContact() {
         cm.addFutureMeeting(cSet, futureDate2);
         cm.addFutureMeeting(cSet2, futureDate);
@@ -103,15 +104,13 @@ public class ContactManagerImplTest {
         cm.addFutureMeeting(cSet2, futureDate2);
         cm.addFutureMeeting(cSet, futureDate);
         List<Meeting> tempList = cm.getFutureMeetingList(contact1);
-        for(Meeting m : tempList){
-            System.out.println(m);
-        }
         assertNotNull(cm.getFutureMeetingList(contact1));
     }
 
-    @Test
-    public void testGetPastMeetingList() {
-        assertNull(cm.getPastMeetingList(contact1));
+    @Test(expected = NullPointerException.class)
+    public void testGetPastMeetingListNullPointer() {
+        Contact test = null;
+        assertNull(cm.getPastMeetingListFor(test));
     }
 
     @Test
