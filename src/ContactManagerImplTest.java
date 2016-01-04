@@ -58,8 +58,7 @@ public class ContactManagerImplTest {
 
     @Test(expected = NullPointerException.class)
     public void testAddFutureMeetingWithNullDate() {
-        Calendar nullDate = null;
-        cm.addFutureMeeting(cSet, nullDate);
+        cm.addFutureMeeting(cSet, null);
     }
 
     @Test
@@ -109,8 +108,7 @@ public class ContactManagerImplTest {
 
     @Test(expected = NullPointerException.class)
     public void testGetPastMeetingListNullPointer() {
-        Contact test = null;
-        assertNull(cm.getPastMeetingListFor(test));
+        assertNull(cm.getPastMeetingListFor(null));
     }
     @Test(expected = IllegalArgumentException.class)
     public void testGetPastMeetingListForNonExistingContact() {
@@ -130,9 +128,14 @@ public class ContactManagerImplTest {
 
     @Test(expected = NullPointerException.class)
     public void testAddNewContactNullPointerException() {
-        cm.addNewContact("","");
         cm.addNewContact(null, null);
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAddNewContactIllegalArgumentException() {
+        cm.addNewContact("","");
+    }
+
 
     @Test
     public void testGetContactsArray() {
