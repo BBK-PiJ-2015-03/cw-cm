@@ -184,8 +184,11 @@ public class ContactManagerImpl implements ContactManager{
 
     @Override
     public int addNewContact(String name, String notes) {
-        if(name.equals("") || notes.equals("") || name == null || notes == null){
-            throw new NullPointerException("Parameters cannot be empty or null.");
+        if(name == null || notes == null){
+            throw new NullPointerException("Parameters cannot be null.");
+        }
+        if(name.equals("") || notes.equals("")){
+            throw new IllegalArgumentException("Parameters cannot be empty strings.");
         }
         return 0;
     }
