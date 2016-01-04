@@ -107,10 +107,23 @@ public class ContactManagerImpl implements ContactManager{
         return futureMeetingList;
     }
 
+    /**
+     * @see ContactManager#getPastMeetingListFor(Contact)
+     */
     @Override
-    public List<PastMeeting> getPastMeetingListFor(Contact contact) throws NullPointerException{
+    public List<PastMeeting> getPastMeetingListFor(Contact contact) throws NullPointerException, IllegalArgumentException{
         if(contact == null){
             throw new NullPointerException("Contact entered is null.");
+        }
+        ContactImpl access = new ContactImpl();
+        boolean contactExists = false;
+        for(Contact cn : access.getAllContacts()){
+            if(cn.equals(contact)){
+                contactExists = true;
+            }
+        }
+        if(!contactExists){
+            throw new IllegalArgumentException("Contact does not exist.");
         }
         List<PastMeeting> pastMeetingList = new ArrayList<>();
         for (Meeting m : allMeetings) {
@@ -127,9 +140,11 @@ public class ContactManagerImpl implements ContactManager{
         }
         return pastMeetingList;
     }
-
+    /**
+     * @see ContactManager#addNewPastMeeting(Set, Calendar, String)
+     */
     @Override
-    public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) {
+    public void addNewPastMeeting(Set<Contact> contacts, Calendar date, String text) throws NullPointerException, IllegalArgumentException{
         if(contacts == null || date == null || text == null){
             throw new NullPointerException("Input cannot be null.");
         }
@@ -148,7 +163,9 @@ public class ContactManagerImpl implements ContactManager{
         ((PastMeetingImpl)meeting).setNotes(text);
         allMeetings.add(meeting);
     }
-
+    /**
+     * @see ContactManager#addMeetingNotes(int, String)
+     */
     @Override
     public PastMeeting addMeetingNotes(int id, String text) throws IllegalArgumentException, IllegalStateException, NullPointerException{
         if(getMeeting(id) == null){
