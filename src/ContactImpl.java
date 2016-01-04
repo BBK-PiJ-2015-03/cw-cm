@@ -1,4 +1,7 @@
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @see Contact
  */
@@ -8,6 +11,7 @@ public class ContactImpl implements Contact, Serializable {
     private final String name;
     private String notes = "";
     private static int CONTACT_COUNT = 0;
+    private static Set<Contact> allContacts = new HashSet<>();
 
     /**
      * Constructor for a  contact.
@@ -18,6 +22,7 @@ public class ContactImpl implements Contact, Serializable {
     public ContactImpl(String name){
         this.id = CONTACT_COUNT+1;
         this.name = name;
+        allContacts.add(this);
         CONTACT_COUNT++;
     }
     /**
@@ -51,6 +56,13 @@ public class ContactImpl implements Contact, Serializable {
         } else {
             this.notes = note;
         }
+    }
+    /**
+     * Get details of all contacts
+     * @return a set of all contacts that have been registered
+     */
+    public Set<Contact> getAllContacts(){
+        return allContacts;
     }
     /**
      * This method will return the contacts full details
