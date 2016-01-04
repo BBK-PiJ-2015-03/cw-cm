@@ -196,14 +196,29 @@ public class ContactManagerImpl implements ContactManager{
     }
 
     @Override
-    public Set<Contact> getContacts(int... ids) {
-        return null;
+    public Set<Contact> getContacts(int... ids) throws IllegalArgumentException{
+        if(ids == null){
+            throw new IllegalArgumentException("Parameter cannot be empty.");
+        }
+        ContactImpl access = new ContactImpl();
+        Set<Contact> returnSet = new HashSet<>();
+        for (Contact c : access.getAllContacts()){
+            for(int id : ids){
+                if(c.getId() == id){
+                    returnSet.add(c);
+                }
+            }
+        }
+        if(returnSet.isEmpty()){
+            throw new IllegalArgumentException("No contact ID match found.");
+        }
+        return returnSet;
     }
 
     @Override
     public Set<Contact> getContacts(String name) throws NullPointerException {
         if(name == null){
-            throw new NullPointerException("Parameter cannot be null.");
+            throw new NullPointerException("Parameter cannot be empty.");
         }
         Set<Contact> returnSet = new HashSet<>();
         ContactImpl access = new ContactImpl();
