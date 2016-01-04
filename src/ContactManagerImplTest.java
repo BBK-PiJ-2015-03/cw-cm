@@ -141,6 +141,12 @@ public class ContactManagerImplTest {
         assertTrue(cm.addNewContact("Jeremy Kyle", "Prefers latte with no milk.") > 0);
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testGetContactsByNameNullPointerException() {
+        String name = null;
+        cm.getContacts(name);
+    }
+
 
     @Test
     public void testGetContactsArray() {
