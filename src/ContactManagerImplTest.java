@@ -128,9 +128,10 @@ public class ContactManagerImplTest {
 
     }
 
-    @Test
-    public void testAddNewContact() {
-
+    @Test(expected = NullPointerException.class)
+    public void testAddNewContactNullPointerException() {
+        cm.addNewContact("","");
+        cm.addNewContact(null, null);
     }
 
     @Test
