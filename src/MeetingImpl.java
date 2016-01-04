@@ -9,6 +9,7 @@ public class MeetingImpl implements Meeting {
     private Calendar date;
     private Set<Contact> contacts;
     private static int MEETING_COUNT = 0;
+    private String notes = "";
 
 
     public MeetingImpl(Set<Contact> c, Calendar d){
@@ -39,6 +40,10 @@ public class MeetingImpl implements Meeting {
         this.contacts = meetingContacts;
     }
 
+    public void setNotes(String notes){
+        this.notes = notes;
+    }
+
     @Override
     public int getId() {
         return Id;
@@ -52,6 +57,10 @@ public class MeetingImpl implements Meeting {
     @Override
     public Set<Contact> getContacts() {
         return contacts;
+    }
+
+    public String getNotes() {
+        return notes;
     }
 
     @Override
