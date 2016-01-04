@@ -205,7 +205,17 @@ public class ContactManagerImpl implements ContactManager{
         if(name == null){
             throw new NullPointerException("Parameter cannot be null.");
         }
-        return null;
+        Set<Contact> returnSet = new HashSet<>();
+        ContactImpl access = new ContactImpl();
+        if(name.equals("")){
+            return access.getAllContacts();
+        }
+        for (Contact c : access.getAllContacts()){
+            if(c.getName().toLowerCase().contains(name.toLowerCase())){
+                returnSet.add(c);
+            }
+        }
+        return returnSet;
     }
 
     @Override
