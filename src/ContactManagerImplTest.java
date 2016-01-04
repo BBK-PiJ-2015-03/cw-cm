@@ -112,6 +112,11 @@ public class ContactManagerImplTest {
         Contact test = null;
         assertNull(cm.getPastMeetingListFor(test));
     }
+    @Test(expected = IllegalArgumentException.class)
+    public void testGetPastMeetingListForNonExistingContact() {
+        Contact test = new ContactImpl();
+        assertNull(cm.getPastMeetingListFor(test));
+    }
 
     @Test
     public void testAddNewPastMeeting() {
