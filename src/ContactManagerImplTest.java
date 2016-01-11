@@ -149,18 +149,19 @@ public class ContactManagerImplTest {
 
     @Test
     public void testGetContactsByEmptyStringReturnsFullListOfContacts() {
-       assertTrue(cm.getContacts("").size() == 2);
+        ContactImpl accessor = new ContactImpl();
+       assertTrue(cm.getContacts("") == accessor.getAllContacts());
     }
 
     @Test
     public void testGetContactsByString() {
         Contact Jimmy = new ContactImpl("Jimmy Russler");
-        assertEquals(cm.getContacts("jimmy").size(), 1);
+        assertEquals(cm.getContacts("jim").size(), 1);
         assertEquals(cm.getContacts("Jimmy").size(), 1);
-        assertEquals(cm.getContacts("russle").size(), 1);
+        assertEquals(cm.getContacts("russler").size(), 1);
         assertEquals(cm.getContacts("Russle").size(), 1);
-        assertEquals(cm.getContacts("RUSSLE").size(), 1);
-        assertEquals(cm.getContacts("JIMMY").size(), 1);
+        assertEquals(cm.getContacts("RUSLER").size(), 0);
+        assertEquals(cm.getContacts("JIMM").size(), 1);
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -176,19 +177,27 @@ public class ContactManagerImplTest {
         assertEquals(cm.getContacts(testId, 19).size(), 2);
     }
 
-
-    @Test
-    public void testGetContactsArray() {
-       // assertNull(cm.getContacts(21, 21, 32, 323));
-    }
-
-    @Test
-    public void testGetContactsByName() {
-       // assertNull(cm.getContacts("Jane Doe"));
-    }
-
     @Test
     public void testFlush() {
+        ContactManagerImpl cm = new ContactManagerImpl();
+        ContactImpl c1 = new ContactImpl("James Bond");
+        ContactImpl c2 = new ContactImpl("Dillion Smila");
+        ContactImpl c3 = new ContactImpl("Tilda Mall");
+        Set<Contact> cSet = new HashSet<>();
+        cSet.add(c1);
+        cSet.add(c3);
+        Calendar date = new GregorianCalendar(2018,10,1);
+        cm.addFutureMeeting(cSet, date);
+        System.out.println(c1.getAllContacts());
+        System.out.println("****** LINE BREAK ******");
+        System.out.println(cm.getAllMeetings().toString());
+        System.out.println("****** LINE BREAK ******");
+        System.out.println(cm.getContacts("James"));
+        cm.flush();
 
+        ContactManagerImpl cm2 = new ContactManagerImpl();
+        ContactImpl c10 = new ContactImpl();
+        assertTrue(!c10.getAllContacts().isEmpty());
+        assertTrue(!cm2.getAllMeetings().isEmpty());
     }
 }
