@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -75,6 +76,14 @@ public class ContactImpl implements Contact, Serializable {
     public Set<Contact> getAllContacts(){
         return allContacts;
     }
+    /**
+     * Save set of all contacts
+     * @param set of contacts to be saved
+     */
+    public void setAllContacts(List<Contact> newContacts){
+        this.allContacts.addAll(newContacts);
+    }
+
     /**
      * This method will return the contacts full details
      *
