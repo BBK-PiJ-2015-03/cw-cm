@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.*;
 
 /**
@@ -6,6 +7,34 @@ import java.util.*;
 public class ContactManagerImpl implements ContactManager{
     private Calendar todayDate = Calendar.getInstance();
     private Set<Meeting> allMeetings = new HashSet<>();
+    private List<Contact> allContacts = new ArrayList<>();
+
+    /**
+     * Constructor for contact manager, checks for save data and loads it if present.
+     */
+    public ContactManagerImpl(){
+        super();
+        this.checkForSaveData();
+    }
+
+    /**
+     * Get set of all meetings
+     *
+     * @return a set of all meetings
+     */
+    public Set<Meeting> getAllMeetings(){
+        return this.allMeetings;
+    }
+
+    /**
+     * Get list of all contacts
+     *
+     * @return a list of all meetings
+     */
+    public List<Contact> getAllContacts(){
+        return this.allContacts;
+    }
+
     /**
      * @see ContactManager#addFutureMeeting(Set, Calendar)
      */
@@ -182,6 +211,9 @@ public class ContactManagerImpl implements ContactManager{
         return ((PastMeetingImpl)meeting);
     }
 
+    /**
+     * @see ContactManager#addNewContact(String, String)
+     */
     @Override
     public int addNewContact(String name, String notes) throws NullPointerException, IllegalArgumentException{
         if(name == null || notes == null){
@@ -195,6 +227,9 @@ public class ContactManagerImpl implements ContactManager{
         return newContact.getId();
     }
 
+    /**
+     * @see ContactManager#getContacts(int...)
+     */
     @Override
     public Set<Contact> getContacts(int... ids) throws IllegalArgumentException{
         if(ids == null){
@@ -215,6 +250,9 @@ public class ContactManagerImpl implements ContactManager{
         return returnSet;
     }
 
+    /**
+     * @see ContactManager#getContacts(String)
+     */
     @Override
     public Set<Contact> getContacts(String name) throws NullPointerException {
         if(name == null){
@@ -233,8 +271,60 @@ public class ContactManagerImpl implements ContactManager{
         return returnSet;
     }
 
+    /**
+     * Checks for saved data, if present it will restore it to objects.
+     */
+    public void checkForSaveData() {
+        File openFile = new File("data.bin");
+        if(openFile.exists()) {
+            try (FileInputStream is = new FileInputStream("data.bin")) {
+                ObjectInputStream os = new ObjectInputStream(is);
+                //Object inputFile = os.readObject();
+                ContactImpl accessor = new ContactImpl();
+                accessor.setAllContacts((List<Contact>) os.readObject());
+                allMeetings = ((Set<Meeting>) os.readObject());
+                os.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+    }
+
+    /**
+     * @see ContactManager#flush()
+     */
     @Override
     public void flush() {
+        ContactImpl accessor = new ContactImpl();
+        this.getAllContacts().addAll(accessor.getAllContacts());
+        //accessor.getAllContacts().addAll(this.allContacts);
+        File saveData = new File("data.bin");
+        if(saveData.exists()){
+            saveData.delete();
+            try {
+                saveData.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try(FileOutputStream fs = new FileOutputStream(saveData)){
+            ObjectOutputStream os = new ObjectOutputStream(fs);
+            os.writeObject(this.allContacts);
+            os.writeObject(this.allMeetings);
+            os.close();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
 
     }
 }
+
+
+/**
+ * Credit to javacoffeebreak for helping understand serialization
+ * http://www.javacoffeebreak.com/articles/serialization/
+ */
