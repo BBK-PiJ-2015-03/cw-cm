@@ -16,7 +16,6 @@ public class ContactManagerImpl implements ContactManager{
         super();
         this.checkForSaveData();
     }
-
     /**
      * Get set of all meetings
      *
