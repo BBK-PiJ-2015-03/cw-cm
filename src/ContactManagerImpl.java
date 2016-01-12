@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @see ContactManager
@@ -102,11 +103,7 @@ public class ContactManagerImpl implements ContactManager{
         List<Meeting> futureMeetingList = new ArrayList<>();
         for (Meeting m : allMeetings) {
             if(m.getDate().after(todayDate)) {  //Assuming todays meetings are not in the future.
-                for (Contact c : m.getContacts()) {
-                    if (c.equals(contact)) {
-                        futureMeetingList.add(m);
-                    }
-                }
+                futureMeetingList.addAll(m.getContacts().stream().filter(c -> c.equals(contact)).map(c -> m).collect(Collectors.toList()));
             }
             if(!futureMeetingList.isEmpty()) {
                 Collections.sort(futureMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
@@ -123,12 +120,7 @@ public class ContactManagerImpl implements ContactManager{
         if(date == null){
             throw new NullPointerException("Date entered is null.");
         }
-        List<Meeting> futureMeetingList = new ArrayList<>();
-        for (Meeting m : allMeetings) {
-            if(m.getDate().equals(date)) {
-                futureMeetingList.add(m);
-           }
-        }
+        List<Meeting> futureMeetingList = allMeetings.stream().filter(m -> m.getDate().equals(date)).collect(Collectors.toList());
         if(!futureMeetingList.isEmpty()) {
             Collections.sort(futureMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
         }
@@ -156,11 +148,7 @@ public class ContactManagerImpl implements ContactManager{
         List<PastMeeting> pastMeetingList = new ArrayList<>();
         for (Meeting m : allMeetings) {
             if(m.getDate().before(todayDate)) {  //Assuming past meeting are prior to todays date.
-                for (Contact c : m.getContacts()) {
-                    if (c.equals(contact)) {
-                        pastMeetingList.add(((PastMeeting)m));
-                    }
-                }
+                pastMeetingList.addAll(m.getContacts().stream().filter(c -> c.equals(contact)).map(c -> ((PastMeeting) m)).collect(Collectors.toList()));
             }
             if(!pastMeetingList.isEmpty()) {
                 Collections.sort(pastMeetingList, (m1, m2) -> m1.getDate().compareTo(m2.getDate()));
