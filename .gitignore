@@ -1,3 +1,5 @@
+*.git
+
 # Intellij
 .idea/
 *.iml
